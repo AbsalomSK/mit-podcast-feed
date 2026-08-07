@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>얘기좀합시다</title>
+    <atom:link href="https://absalomsk.github.io/mit-podcast-feed/feed.xml" rel="self" type="application/rss+xml"/>
+    <link>https://www.youtube.com/channel/UCtjj8T7n2_jS92pfMeWdoWQ</link>
+    <language>ko</language>
+    <managingEditor>eugeneent.contents@gmail.com (머니인더트랩)</managingEditor>
+    <webMaster>eugeneent.contents@gmail.com (머니인더트랩)</webMaster>
+    <description>세상의 덫에 빠지지 않는 가장 돈돈한 대화. 머니인더트랩이 전문가와 함께 돈과 세상의 트랩을 풀어가는 경제 대담 [얘기좀합시다]의 오디오판입니다.</description>
+    <itunes:summary>세상의 덫에 빠지지 않는 가장 돈돈한 대화. 머니인더트랩이 전문가와 함께 돈과 세상의 트랩을 풀어가는 경제 대담 [얘기좀합시다]의 오디오판입니다.</itunes:summary>
+    <itunes:author>머니인더트랩</itunes:author>
+    <itunes:type>episodic</itunes:type>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:image href="https://absalomsk.github.io/mit-podcast-feed/cover.jpg"/>
+    <itunes:category text="Business"/>
+    <itunes:owner>
+      <itunes:name>머니인더트랩</itunes:name>
+      <itunes:email>eugeneent.contents@gmail.com</itunes:email>
+    </itunes:owner>
+    <copyright>머니인더트랩</copyright>
+    <item>
+      <title>지금 미국이 중국을 가장 두려워하는 이유 (테슬라도 예외 아닙니다) | 박종성 작가</title>
+      <itunes:image href="https://absalomsk.github.io/mit-podcast-feed/art/Pg1rhc19QNQ.jpg"/>
+      <description>지금 미국이 중국을 두려워하는 이유는 단순히 AI 기술 때문만이 아닙니다.
+
+중국은 이미 네 개의 축으로 AI 생태계를 만들고 있습니다.
+DJI, 바이두, 유니트리, 화웨이
+하늘, 도시, 실내 데이터를 모두 모으는 구조입니다.
+
+이 흐름 속에서
+테슬라 같은 글로벌 기업들도 완전히 자유롭기 어렵습니다.
+
+지금 미국이 중국을 가장 두려워하는 이유를 이야기해보겠습니다.
+
+🎤 함께해주신 분
+박종성 작가
+
+🎬 만든 사람들
+이재상 PD (진행·기획)
+박정은 PD (편집)
+
+#머니인더트랩 #머인트 #얘기좀합시다 #박종성</description>
+      <itunes:summary>지금 미국이 중국을 두려워하는 이유는 단순히 AI 기술 때문만이 아닙니다.
+
+중국은 이미 네 개의 축으로 AI 생태계를 만들고 있습니다.
+DJI, 바이두, 유니트리, 화웨이
+하늘, 도시, 실내 데이터를 모두 모으는 구조입니다.
+
+이 흐름 속에서
+테슬라 같은 글로벌 기업들도 완전히 자유롭기 어렵습니다.
+
+지금 미국이 중국을 가장 두려워하는 이유를 이야기해보겠습니다.
+
+🎤 함께해주신 분
+박종성 작가
+
+🎬 만든 사람들
+이재상 PD (진행·기획)
+박정은 PD (편집)
+
+#머니인더트랩 #머인트 #얘기좀합시다 #박종성</itunes:summary>
+      <enclosure url="https://absalomsk.github.io/mit-podcast-feed/audio/Pg1rhc19QNQ.mp3" length="8138541" type="audio/mpeg"/>
+      <guid isPermaLink="false">Pg1rhc19QNQ</guid>
+      <pubDate>Thu, 12 Mar 2026 06:14:01 +0000</pubDate>
+      <itunes:duration>0:14:02</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <link>https://www.youtube.com/watch?v=Pg1rhc19QNQ</link>
+    </item>
+    <item>
+      <title>지금 사야 할까? 지극히 현실적인 내 집 마련 전략 | 김인만 부동산경제연구소 소장, 윤지해 부동산 R114 리서치랩장</title>
+      <itunes:image href="https://absalomsk.github.io/mit-podcast-feed/art/dSS1TE3ljNQ.jpg"/>
+      <description>2025년 부동산 시장, 어디로 갈까요?
+집값이 떨어질지, 다시 오를지…
+현실적인 ‘내 집 마련 전략’부터 ‘지금 사도 될까?’까지
+냉철한 시각으로 풀어드립니다.
+
+#부동산 #윤지해 #김인만 #내집마련 #부동산전망 #집값전망 #부동산투자 #경제토크</description>
+      <itunes:summary>2025년 부동산 시장, 어디로 갈까요?
+집값이 떨어질지, 다시 오를지…
+현실적인 ‘내 집 마련 전략’부터 ‘지금 사도 될까?’까지
+냉철한 시각으로 풀어드립니다.
+
+#부동산 #윤지해 #김인만 #내집마련 #부동산전망 #집값전망 #부동산투자 #경제토크</itunes:summary>
+      <enclosure url="https://absalomsk.github.io/mit-podcast-feed/audio/dSS1TE3ljNQ.mp3" length="8423853" type="audio/mpeg"/>
+      <guid isPermaLink="false">dSS1TE3ljNQ</guid>
+      <pubDate>Sun, 19 Oct 2025 06:00:01 +0000</pubDate>
+      <itunes:duration>0:13:53</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <link>https://www.youtube.com/watch?v=dSS1TE3ljNQ</link>
+    </item>
+  </channel>
+</rss>
