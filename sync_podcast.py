@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-유튜브 롱폼([얘기좀합시다]) → 팟캐스트 RSS (Cloudflare R2 상시 호스팅)
+유튜브 롱폼([얘기좀합시다]) → 팟캐스트 RSS (피드는 GitHub Pages, 음원은 Cloudflare R2)
 
 동작:
   1. 채널 영상 탭에서 제목에 [얘기좀합시다]가 든 편만 고른다
   2. R2의 state/podcast_state.json에 없는 편을 최신 것부터 mp3(모노)로 뽑는다
-  3. mp3·에피소드 아트를 R2에 올리고 feed.xml을 통째로 다시 써서 올린다
-  4. 상태를 R2에 기록하고 텔레그램으로 알린다
+  3. mp3·에피소드 아트를 R2에 올린다
+  4. 저장소 루트의 feed.xml을 통째로 다시 쓴다 (워크플로가 커밋 → GitHub Pages로 서비스)
+  5. 상태를 R2에 기록하고 텔레그램으로 알린다
 
 스포티파이는 feed.xml을 주기적으로 읽어 가므로, 피드에 편이 추가되면
-사람 손 없이 스포티파이에 올라간다. 피드 주소는 바뀌면 안 된다.
+사람 손 없이 스포티파이에 올라간다. 피드 주소(FEED_BASE_URL)는 바뀌면 안 된다.
+음원 주소(MEDIA_BASE_URL)는 나중에 바꿔도 피드만 다시 쓰면 된다.
 
 설정은 전부 환경변수로 받는다 (GitHub Actions의 secrets / variables).
 실행: python sync_podcast.py
@@ -42,7 +44,9 @@ def load_config() -> dict:
         "channel_videos_url": env(
             "CHANNEL_VIDEOS_URL",
             "https://www.youtube.com/channel/UCtjj8T7n2_jS92pfMeWdoWQ/videos"),
-        "public_base_url": env("PUBLIC_BASE_URL").rstrip("/"),
+        "feed_base_url": env(
+            "FEED_BASE_URL", "https://absalomsk.github.io/mit-podcast-feed").rstrip("/"),
+        "media_base_url": env("MEDIA_BASE_URL").rstrip("/"),
         "show_title": env("SHOW_TITLE", "얘기좀합시다"),
         "show_link": env(
             "SHOW_LINK", "https://www.youtube.com/channel/UCtjj8T7n2_jS92pfMeWdoWQ"),
@@ -69,15 +73,6 @@ def r2_client():
         aws_secret_access_key=env("R2_SECRET_ACCESS_KEY"),
         region_name="auto",
     )
-
-
-def r2_exists(s3, bucket: str, key: str) -> bool:
-    from botocore.exceptions import ClientError
-    try:
-        s3.head_object(Bucket=bucket, Key=key)
-        return True
-    except ClientError:
-        return False
 
 
 def load_state(s3, bucket: str) -> dict:
@@ -196,18 +191,19 @@ def hhmmss(seconds: int) -> str:
 
 def build_feed(cfg: dict, episodes: list[dict], feed_name: str = "feed.xml") -> str:
     """전체 목록으로 RSS를 통째로 다시 만든다. 상태의 단일 출처는 state json이다."""
-    base = cfg["public_base_url"].rstrip("/")
+    base = cfg["feed_base_url"].rstrip("/")    # feed.xml, cover.jpg (GitHub Pages)
+    media = cfg["media_base_url"].rstrip("/")  # mp3, 에피소드 아트 (R2)
     e = escape
     items = []
     for ep in sorted(episodes, key=lambda x: x["timestamp"], reverse=True):
         # 아트가 없는 편은 태그를 빼서 쇼 커버로 떨어지게 둔다.
-        art = (f'\n      <itunes:image href="{e(base)}/{e(ep["art"])}"/>'
+        art = (f'\n      <itunes:image href="{e(media)}/{e(ep["art"])}"/>'
                if ep.get("art") else "")
         items.append(f"""    <item>
       <title>{e(ep['title'])}</title>{art}
       <description>{e(ep['description'])}</description>
       <itunes:summary>{e(ep['description'])}</itunes:summary>
-      <enclosure url="{e(base)}/{e(ep['key'])}" length="{ep['bytes']}" type="audio/mpeg"/>
+      <enclosure url="{e(media)}/{e(ep['key'])}" length="{ep['bytes']}" type="audio/mpeg"/>
       <guid isPermaLink="false">{e(ep['id'])}</guid>
       <pubDate>{ep['pub_date']}</pubDate>
       <itunes:duration>{hhmmss(ep['duration'])}</itunes:duration>
@@ -339,15 +335,13 @@ def main() -> None:
 
     # 피드는 마지막에 한 번만 쓴다. 편이 하나도 없으면 쓰지 않는다
     # (빈 피드를 올리면 스포티파이가 쇼를 비운다).
+    # 저장소 루트에 쓰고, 커밋·푸시는 워크플로가 한다.
     if state["episodes"]:
-        if not r2_exists(s3, bucket, "cover.jpg"):
-            s3.upload_file(str(HERE / "cover.jpg"), bucket, "cover.jpg",
-                           ExtraArgs={"ContentType": "image/jpeg"})
-        s3.put_object(Bucket=bucket, Key="feed.xml",
-                      Body=build_feed(cfg, state["episodes"]).encode("utf-8"),
-                      ContentType="application/rss+xml; charset=utf-8",
-                      CacheControl="public, max-age=300")
-        print(f"피드 갱신: {len(state['episodes'])}편 → {cfg['public_base_url']}/feed.xml")
+        feed = HERE / "feed.xml"
+        tmp = feed.with_suffix(".xml.tmp")
+        tmp.write_text(build_feed(cfg, state["episodes"]), encoding="utf-8")
+        tmp.replace(feed)
+        print(f"피드 작성: {len(state['episodes'])}편 → {cfg['feed_base_url']}/feed.xml")
 
     remaining = len(pending) - len(added)
     if added:

@@ -5,7 +5,8 @@ from xml.etree import ElementTree
 from sync_podcast import build_feed, clean_title, hhmmss, rfc2822
 
 CFG = {
-    "public_base_url": "https://cdn.example.com/",
+    "feed_base_url": "https://feed.example.com/",
+    "media_base_url": "https://cdn.example.com/",
     "show_title": "얘기좀합시다",
     "show_link": "https://www.youtube.com/@example",
     "show_description": "설명 & 특수문자 <test>",
@@ -29,6 +30,10 @@ def test_feed() -> None:
     ch = root.find("channel")
     assert ch.find("itunes:owner/itunes:email", NS).text == "a@b.com"
     assert ch.find("description").text == "설명 & 특수문자 <test>"
+    # 피드·커버는 Pages, 음원·아트는 R2
+    atom = ch.find("{http://www.w3.org/2005/Atom}link")
+    assert atom.get("href") == "https://feed.example.com/feed.xml"
+    assert ch.find("itunes:image", NS).get("href") == "https://feed.example.com/cover.jpg"
     items = ch.findall("item")
     assert [i.find("guid").text for i in items] == ["bbb", "aaa"]  # 최신순
     assert items[0].find("title").text == 'AT&T와 "따옴표"'
